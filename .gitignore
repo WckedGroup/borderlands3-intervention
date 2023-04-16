@@ -1,0 +1,41 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Resource Files
+*.png
+
+# Executables
+*.exe
+*.out
+*.app
+/x64/Debug
+*/x64/Debug
+/.vs/*
+/borderlands3-intervention/x64/Release
+/packages/vcpkg.D.Projetos.vcpkg.1.0.0
+/x64/Release

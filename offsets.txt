@@ -1,0 +1,76 @@
+7FF683EAA8C8
+
+48 8B 05 ?? ?? ?? ?? 48 8B ?? ?? 48 8D ?? ?? - GObjects -> 0x146C99FB0 (rel 0x6C99FB0) 
+
+\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\x00\x00\x48\x8D\x00\x00
+
+48 83 EC 28 48 8B 05 ?? ?? ?? ?? 48 85 C0 75 ?? B9 ?? ?? ?? ?? 48 89 5C 24 20 E8 - FNamePool -> 0x6C953E8 (+7)
+
+\x48\x83\xEC\x28\x48\x8B\x05\x00\x00\x00\x00\x48\x85\xC0\x75\x00\xB9\x00\x00\x00\x00\x48\x89\x5C\x24\x20\xE8
+
+48 8B 1D ?? ?? ?? 04 48 85 DB 74 3B - GWorld
+
+\x48\x8B\x1D\x00\x00\x00\x04\x48\x85\xDB\x74\x3B
+
+48 8B 0D ?? ?? ?? ?? 48 85 C9 0F 84 ?? ?? ?? ?? 48 8B 89 - GEngine -> 0x6DC7FB0
+
+\x48\x8B\x0D\x00\x00\x00\x00\x48\x85\xC9\x0F\x84\x00\x00\x00\x00\x48\x8B\x89
+
+"HMD device is %s"
+
+PostRenderIndex: 0x63
+ProcessEvent: 0x41
+
+Procurar por "BadProperty" e ir até o final
+
+OU
+
+"OnInterpToggle"
+
+    sub_141702730(&v58, (__int64)L"OnInterpToggle", 1u);
+    v56 = sub_1417F25C0(v9, v58);
+    v21 = (float *)v31;
+    if ( v56 && *(_BYTE *)(v56 + 140) == 1 )
+    {
+      v57 = ((*(_BYTE *)(v43 + 8i64 * v37 + 4) - 1) & 0xFD) == 0;
+      LODWORD(v59) = v57;
+      if ( v32 )
+        LODWORD(v59) = !v57;
+      (*(void (__fastcall **)(_QWORD *, __int64, __int64 *))(*v9 + 520i64))(v9, v56, &v59); <-- ISSO
+    }
+
+Interesting Headers: OakGame, GbxWeapon
+Actor : ULevel | 0xA0
+Filtering Actors : ABPChar_Enemy_C
+
+Post Render:
+
+Place breakpoint here to find what accesses (PostRender)
+
+void UGameViewportClient::DrawTransition(UCanvas* Canvas)
+{
+	if (bSuppressTransitionMessage == false)
+	{
+		switch (GetOuterUEngine()->TransitionType)
+		{
+		case TT_Loading:
+			DrawTransitionMessage(Canvas, NSLOCTEXT("GameViewportClient", "LoadingMessage", "LOADING").ToString());
+			break;
+		case TT_Saving:
+			DrawTransitionMessage(Canvas, NSLOCTEXT("GameViewportClient", "SavingMessage", "SAVING").ToString());
+			break;
+		case TT_Connecting:
+			DrawTransitionMessage(Canvas, NSLOCTEXT("GameViewportClient", "ConnectingMessage", "CONNECTING").ToString());
+			break;
+		case TT_Precaching:
+			DrawTransitionMessage(Canvas, NSLOCTEXT("GameViewportClient", "PrecachingMessage", "PRECACHING").ToString());
+			break;
+		case TT_Paused:
+			DrawTransitionMessage(Canvas, NSLOCTEXT("GameViewportClient", "PausedMessage", "PAUSED").ToString());
+			break;
+		case TT_WaitingToConnect:
+			DrawTransitionMessage(Canvas, TEXT("Waiting to connect...")); // Temp - localization of the FString messages is broke atm. Loc this when its fixed.
+			break;
+		}
+	}
+}
