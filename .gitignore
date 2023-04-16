@@ -26,9 +26,6 @@
 *.a
 *.lib
 
-# Resource Files
-*.png
-
 # Executables
 *.exe
 *.out
